@@ -1,14 +1,11 @@
 import useToken  from '../custom-hooks/useToken';
-import { useNavigate } from "react-router-dom";
 
 export default function Header() {
     const { token, setToken } = useToken();
 
-    let navigate = useNavigate();
-
     const logout = () => {
         setToken("");
-        navigate("login", { replace: true });
+        window.location.href = '/login';
     };
 
     return (
