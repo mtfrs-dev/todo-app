@@ -4,11 +4,15 @@ import { Alert } from "flowbite-react/lib/cjs/components/Alert";
 import useMessage from "../custom-hooks/useMessage";
 import getTodosList from '../api/todos/Get';
 import TasksGroupCard from '../components/cards/TasksGroupCard';
+import CreateTaskModal from '../components/modals/CreateTaskModal';
 
 export default function Home(){
     const { message, setMessage } = useMessage();
 
     const [todoList, setTodoList] = useState();
+
+    const [addTaskModalDisplay, setAddTaskModalDisplay] = useState(false);
+    const [todoID, setTodoID] = useState();
 
     useEffect(() => {
         let mounted = true;
@@ -20,7 +24,7 @@ export default function Home(){
                 }
             });
         return () => mounted = false;
-    }, [])
+    }, [message])
 
     return (
         <>
@@ -35,10 +39,11 @@ export default function Home(){
                     </Alert>
                 </div>
             )}
+            <CreateTaskModal display={ addTaskModalDisplay } setDisplay={ setAddTaskModalDisplay } todo_id={ todoID } setMessage={ setMessage } />
             { todoList ? 
-                (<div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4 items-start">
+                (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4 items-start">
                     { todoList.map( todo => 
-                        <TasksGroupCard key={todo.id} todo={ todo }/>
+                        <TasksGroupCard key={todo.id} todo={ todo } setTodoID={ setTodoID } setDisplay={ setAddTaskModalDisplay }/>
                     )}
                 </div>)
                 : 
