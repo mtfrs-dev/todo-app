@@ -4,6 +4,7 @@ import { Alert } from "flowbite-react/lib/cjs/components/Alert";
 import useMessage from "../custom-hooks/useMessage";
 import getTodosList from '../api/todos/Get';
 import TasksGroupCard from '../components/cards/TasksGroupCard';
+import CreateGroupModal from '../components/modals/CreateGroupModal';
 import CreateTaskModal from '../components/modals/CreateTaskModal';
 import EditTaskModal from '../components/modals/EditTaskModal';
 import DeleteTaskModal from '../components/modals/DeleteTaskModal';
@@ -15,6 +16,7 @@ export default function Home(){
 
     const [updateTimes, setUpdateTimes] = useState(0);
 
+    const [addGroupModalDisplay, setAddGroupModalDisplay]       = useState(false);
     const [addTaskModalDisplay, setAddTaskModalDisplay]         = useState(false);
     const [editTaskModalDisplay, setEditTaskModalDisplay]       = useState(false);
     const [deleteTaskModalDisplay, setDeleteTaskModalDisplay]   = useState(false);
@@ -37,7 +39,7 @@ export default function Home(){
 
     return (
         <>
-            <Header />
+            <Header setAddGroupModalDisplay={ setAddGroupModalDisplay } />
             { message && (
                 <div className="w-full p-4">
                     <Alert color="success" 
@@ -79,6 +81,13 @@ export default function Home(){
                     </div>
                 )
             }
+            <CreateGroupModal 
+                display={ addGroupModalDisplay } 
+                setDisplay={ setAddGroupModalDisplay } 
+                setMessage={ setMessage }
+                updateTimes={ updateTimes }
+                setUpdateTimes={ setUpdateTimes }
+            />
             <CreateTaskModal 
                 display={ addTaskModalDisplay } 
                 setDisplay={ setAddTaskModalDisplay } 

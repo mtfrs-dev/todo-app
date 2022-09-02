@@ -1,6 +1,7 @@
 import useToken  from '../custom-hooks/useToken';
+import PropTypes from 'prop-types';
 
-export default function Header() {
+export default function Header({ setAddGroupModalDisplay }) {
     const { token, setToken } = useToken();
 
     const logout = () => {
@@ -8,11 +9,17 @@ export default function Header() {
         window.location.href = '/login';
     };
 
+    const handleAddGroupButtonClick = (event) => {
+        event.preventDefault();
+        setAddGroupModalDisplay(true);
+    }
+
     return (
         <div className="w-full border-b-2 border-gray-200 bg-white p-2 lg:p-4 flex justify-between items-center">
             <div className="flex gap-3 lg:gap-4 items-center">
                 <p className="block m-0 font-semibold text-gray-700 text-sm xl:text-lg">Product Roadmap</p>
-                <button type="button" className="flex gap-1 xl:gap-2 items-center py-1 xl:py-2 pl-1 xl:pl-2 pr-2 xl:pr-4 rounded-lg bg-[#01959F] hover:bg-opacity-75 text-white">
+                <button type="button" onClick={ handleAddGroupButtonClick }
+                    className="flex gap-1 xl:gap-2 items-center py-1 xl:py-2 pl-1 xl:pl-2 pr-2 xl:pr-4 rounded-lg bg-[#01959F] hover:bg-opacity-75 text-white">
                     <span>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
                             <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
@@ -33,4 +40,7 @@ export default function Header() {
             </button>
         </div>
     );
+}
+Header.propTypes = {
+    setAddGroupModalDisplay : PropTypes.func.isRequired,
 }
