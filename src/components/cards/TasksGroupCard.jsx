@@ -2,16 +2,23 @@ import React, { useState, useEffect } from "react";
 import getListItems from "../../api/items/Get";
 import PropTypes from 'prop-types';
 import ItemCard from "./ItemCard";
-import useMessage from "../../custom-hooks/useMessage";
 
-export default function TasksGroupCard({ todo, setTodoID, setDisplay }){
-    const { message, setMessage } = useMessage();
+export default function TasksGroupCard({ 
+        todo, 
+        index, 
+        total, 
+        setTodoID,
+        setItemID,
+        setItemData,
+        setAddModalDisplay, 
+        setEditModalDisplay
+    }){
 
     const [items, setItems] = useState();
 
     const handleAddTaskButtonClick = (id) => {
         setTodoID(id);
-        setDisplay(true);
+        setAddModalDisplay(true);
     }
 
     useEffect(() => {
@@ -40,7 +47,19 @@ export default function TasksGroupCard({ todo, setTodoID, setDisplay }){
                 (
                     items.length > 0 ? 
                     (<> 
-                        { items.map( item => <ItemCard key={ item.id } item={ item } /> ) } 
+                        { items.map( item => 
+                            <ItemCard 
+                                key={ item.id } 
+                                item={ item } 
+                                index={ index } 
+                                total={ total }
+                                todo_id={ todo.id }
+                                setTodoID={ setTodoID }
+                                setItemID={ setItemID }
+                                setItemData={ setItemData }
+                                setEditModalDisplay={ setEditModalDisplay }
+                            />
+                        )} 
                     </>)
                     :
                     (
@@ -65,7 +84,12 @@ export default function TasksGroupCard({ todo, setTodoID, setDisplay }){
     ); 
 }
 TasksGroupCard.propTypes = {
-    todo: PropTypes.object.isRequired,
-    setTodoID: PropTypes.func.isRequired,
-    setDisplay: PropTypes.func.isRequired,
+    todo                : PropTypes.object.isRequired,
+    index               : PropTypes.number.isRequired,
+    total               : PropTypes.number.isRequired,
+    setTodoID           : PropTypes.func.isRequired,
+    setItemID           : PropTypes.func.isRequired,
+    setItemData         : PropTypes.func.isRequired,
+    setAddModalDisplay  : PropTypes.func.isRequired,
+    setEditModalDisplay : PropTypes.func.isRequired,
 }

@@ -5,14 +5,20 @@ import useMessage from "../custom-hooks/useMessage";
 import getTodosList from '../api/todos/Get';
 import TasksGroupCard from '../components/cards/TasksGroupCard';
 import CreateTaskModal from '../components/modals/CreateTaskModal';
+import EditTaskModal from '../components/modals/EditTaskModal';
 
 export default function Home(){
     const { message, setMessage } = useMessage();
 
     const [todoList, setTodoList] = useState();
 
-    const [addTaskModalDisplay, setAddTaskModalDisplay] = useState(false);
+    const [addTaskModalDisplay, setAddTaskModalDisplay]     = useState(false);
+    const [editTaskModalDisplay, setEditTaskModalDisplay]   = useState(false);
+    
     const [todoID, setTodoID] = useState();
+    const [itemID, setItemID] = useState();
+
+    const [itemData, setItemData] = useState();
 
     useEffect(() => {
         let mounted = true;
@@ -39,11 +45,20 @@ export default function Home(){
                     </Alert>
                 </div>
             )}
-            <CreateTaskModal display={ addTaskModalDisplay } setDisplay={ setAddTaskModalDisplay } todo_id={ todoID } setMessage={ setMessage } />
             { todoList ? 
                 (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-4 p-4 items-start">
-                    { todoList.map( todo => 
-                        <TasksGroupCard key={todo.id} todo={ todo } setTodoID={ setTodoID } setDisplay={ setAddTaskModalDisplay }/>
+                    { todoList.map( (todo, index) => 
+                        <TasksGroupCard 
+                            key={todo.id} 
+                            todo={ todo } 
+                            index={ index }
+                            total = { todoList.length }
+                            setTodoID={ setTodoID }
+                            setItemID={ setItemID }
+                            setItemData={ setItemData }
+                            setAddModalDisplay={ setAddTaskModalDisplay }
+                            setEditModalDisplay={ setEditTaskModalDisplay }
+                        />
                     )}
                 </div>)
                 : 
@@ -55,6 +70,20 @@ export default function Home(){
                     </div>
                 )
             }
+            <CreateTaskModal 
+                display={ addTaskModalDisplay } 
+                setDisplay={ setAddTaskModalDisplay } 
+                todo_id={ todoID } 
+                setMessage={ setMessage } 
+            />
+            <EditTaskModal 
+                display={ editTaskModalDisplay } 
+                setDisplay={ setEditTaskModalDisplay } 
+                todo_id={ todoID }
+                item_id={ itemID }
+                itemData={ itemData }
+                setMessage={ setMessage } 
+            />
         </>
     );
 }

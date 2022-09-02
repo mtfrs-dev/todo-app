@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import addListItem from '../../api/items/Post';
+import updateListItem from '../../api/items/Patch';
+import { useNavigate } from "react-router-dom";
 
-export default function CreateTaskModal({ display, setDisplay, todo_id, setMessage}) {
-    const [name, setName] = useState("");
-    const [progress_percentage, setProgress] = useState("");
+export default function EditTaskModal({ 
+    display, 
+    setDisplay, 
+    todo_id,
+    item_id,
+    itemData,
+    setMessage
+}) {
+
+    const [name, setName]                       = useState("");
+    const [progress_percentage, setProgress]    = useState("");
+    const [target_todo_id, setTarget]           = useState("");
     
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -13,28 +23,40 @@ export default function CreateTaskModal({ display, setDisplay, todo_id, setMessa
         setProgress(event.target.value);
     };
     const handleCloseButtonClick = () => {
-        setName("");
-        setProgress("");
         setDisplay(false);
     }
+    
+    let navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await addListItem({
+        const response = await updateListItem({
+            target_todo_id,
             name,
             progress_percentage
-        }, todo_id);
-        setMessage("Task created successfully!");
+        }, todo_id, item_id);
+        setMessage("Task updated successfully!");
         setName("");
         setProgress("");
         setDisplay(false);
+        navigate("/", { replace: true });
     }
+
+    useEffect(() => {
+        let mounted = true;
+        todo_id ? setTarget(todo_id) : setTarget("");
+        itemData ? setName(itemData["name"]) : setName("");
+        itemData ? setProgress(itemData["progress_percentage"]) : setProgress("");
+        return () => mounted = false;
+    }, [item_id])
+
     if(display) {
         return (
             <div className="fixed top-0 z-[100] w-full h-screen bg-gray-300 bg-opacity-50 flex flex-col items-center justify-center">
                 <div className="bg-white w-10/15 md:w-1/2 lg:w-2/5 xl:w-1/3 2xl:w-[30%] rounded-lg shadow-md shadow-gray-300 p-5">
                     <div className="flex justify-between items-center text-gray-700 mb-5">
                         <p className="block m-0 text-lg font-medium">
-                            Create Task
+                            Edit Task
                         </p>
                         <button type="button" className="hover:text-red-500" onClick={ handleCloseButtonClick }>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-6 h-6">
@@ -74,7 +96,7 @@ export default function CreateTaskModal({ display, setDisplay, todo_id, setMessa
                                     Cancel
                                 </button>
                                 <button type="submit" className="py-1 px-3 font-medium rounded-md drop-shadow bg-[#01959F] hover:bg-opacity-75 text-white border border-[#01959F]">
-                                    Save Task
+                                    Save Change
                                 </button>
                             </div>
                         </div>
@@ -84,9 +106,11 @@ export default function CreateTaskModal({ display, setDisplay, todo_id, setMessa
         );
     }
 }
-CreateTaskModal.propTypes = {
+EditTaskModal.propTypes = {
     display: PropTypes.bool.isRequired,
     setDisplay: PropTypes.func.isRequired,
     todo_id: PropTypes.number,
+    item_id: PropTypes.number,
+    itemData: PropTypes.object,
     setMessage: PropTypes.func.isRequired,
 }
