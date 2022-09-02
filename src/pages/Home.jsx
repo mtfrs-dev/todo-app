@@ -9,9 +9,11 @@ import EditTaskModal from '../components/modals/EditTaskModal';
 import DeleteTaskModal from '../components/modals/DeleteTaskModal';
 
 export default function Home(){
-    const { message, setMessage } = useMessage();
+    const {message, setMessage } = useMessage();
 
     const [todoList, setTodoList] = useState();
+
+    const [updateTimes, setUpdateTimes] = useState(0);
 
     const [addTaskModalDisplay, setAddTaskModalDisplay]         = useState(false);
     const [editTaskModalDisplay, setEditTaskModalDisplay]       = useState(false);
@@ -27,12 +29,11 @@ export default function Home(){
         getTodosList()
             .then( todos => {
                 if(mounted) { 
-                    console.log(todos);
                     setTodoList(todos);
                 }
             });
         return () => mounted = false;
-    }, [message])
+    }, [message, updateTimes])
 
     return (
         <>
@@ -54,6 +55,8 @@ export default function Home(){
                             key={todo.id} 
                             todo={ todo } 
                             index={ index }
+                            leftID={ todoList[index-1] ? todoList[index-1].id : 0 }
+                            rightID={ todoList[index+1] ? todoList[index+1].id : 0 }
                             total = { todoList.length }
                             setTodoID={ setTodoID }
                             setItemID={ setItemID }
@@ -61,6 +64,9 @@ export default function Home(){
                             setAddModalDisplay={ setAddTaskModalDisplay }
                             setEditModalDisplay={ setEditTaskModalDisplay }
                             setDeleteModalDisplay={ setDeleteTaskModalDisplay }
+                            setMessage={ setMessage }
+                            updateTimes={ updateTimes }
+                            setUpdateTimes={ setUpdateTimes }
                         />
                     )}
                 </div>)
@@ -77,7 +83,9 @@ export default function Home(){
                 display={ addTaskModalDisplay } 
                 setDisplay={ setAddTaskModalDisplay } 
                 todo_id={ todoID } 
-                setMessage={ setMessage } 
+                setMessage={ setMessage }
+                updateTimes={ updateTimes }
+                setUpdateTimes={ setUpdateTimes }
             />
             <EditTaskModal 
                 display={ editTaskModalDisplay } 
@@ -86,6 +94,8 @@ export default function Home(){
                 item_id={ itemID }
                 itemData={ itemData }
                 setMessage={ setMessage } 
+                updateTimes={ updateTimes }
+                setUpdateTimes={ setUpdateTimes }
             />
             <DeleteTaskModal 
                 display={ deleteTaskModalDisplay } 
@@ -93,6 +103,8 @@ export default function Home(){
                 todo_id={ todoID }
                 item_id={ itemID }
                 setMessage={ setMessage } 
+                updateTimes={ updateTimes }
+                setUpdateTimes={ setUpdateTimes }
             />
         </>
     );

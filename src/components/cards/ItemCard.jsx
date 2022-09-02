@@ -1,17 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown } from '../ItemActionDropdown';
+import updateListItem from '../../api/items/Patch';
 
 export default function ItemCard({ 
     item, 
-    index, 
+    index,
     total,
+    leftID,
+    rightID,
     todo_id,
     setTodoID,
     setItemID,
     setItemData,
     setEditModalDisplay,
-    setDeleteModalDisplay
+    setDeleteModalDisplay,
+    setMessage,
+    updateTimes,
+    setUpdateTimes
 }) {
 
     const handleEditTaskButtonClick = (id, edit_name, edit_progress) => {
@@ -25,6 +31,23 @@ export default function ItemCard({
         setTodoID(todo_id);
         setItemID(id);
         setDeleteModalDisplay(true);
+    }
+
+    const handleMoveItemToLeft = async (event, item_id) => {
+        event.preventDefault();
+        let target_todo_id = leftID;
+        const response = await updateListItem({
+            target_todo_id
+        }, todo_id, item_id);
+        setUpdateTimes( updateTimes +1 );
+    }
+    const handleMoveItemToRight = async (event, item_id) => {
+        event.preventDefault();
+        let target_todo_id = rightID;
+        const response = await updateListItem({
+            target_todo_id
+        }, todo_id, item_id);
+        setUpdateTimes( updateTimes +1 );
     }
 
     return (
@@ -55,7 +78,8 @@ export default function ItemCard({
                 </div>
                 <Dropdown color="gray" outline={false} size="2xs">
                     { index > 0 && 
-                    (<button type="button" className="flex gap-3 text-gray-700 mx-3 hover:text-[#01959F] items-center w-36 whitespace-nowrap mb-3">
+                    (<button type="button" onClick={ () => { handleMoveItemToLeft(event, item.id) } }
+                        className="flex gap-3 text-gray-700 mx-3 hover:text-[#01959F] items-center w-36 whitespace-nowrap mb-3">
                         <span className="block m-0">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                                 <path fillRule="evenodd" d="M17 10a.75.75 0 01-.75.75H5.612l4.158 3.96a.75.75 0 11-1.04 1.08l-5.5-5.25a.75.75 0 010-1.08l5.5-5.25a.75.75 0 111.04 1.08L5.612 9.25H16.25A.75.75 0 0117 10z" clipRule="evenodd" />
@@ -67,7 +91,8 @@ export default function ItemCard({
                     </button>)
                     }
                     { total-1 > index && 
-                    (<button type="button" className="flex gap-3 text-gray-700 mx-3 hover:text-[#01959F] items-center w-36 whitespace-nowrap mb-3">
+                    (<button type="button" onClick={ () => { handleMoveItemToRight(event, item.id) } }
+                        className="flex gap-3 text-gray-700 mx-3 hover:text-[#01959F] items-center w-36 whitespace-nowrap mb-3">
                         <span className="block m-0">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                                 <path fillRule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clipRule="evenodd" />
@@ -113,9 +138,14 @@ ItemCard.propTypes = {
     item                    : PropTypes.object.isRequired,
     index                   : PropTypes.number.isRequired,
     total                   : PropTypes.number.isRequired,
+    leftID                  : PropTypes.number.isRequired,
+    rightID                 : PropTypes.number.isRequired,
     todo_id                 : PropTypes.number.isRequired,
     setTodoID               : PropTypes.func.isRequired,
     setItemID               : PropTypes.func.isRequired,
     setEditModalDisplay     : PropTypes.func.isRequired,
     setDeleteModalDisplay   : PropTypes.func.isRequired,
+    setMessage              : PropTypes.func.isRequired,
+    updateTimes             : PropTypes.number.isRequired,
+    setUpdateTimes          : PropTypes.func.isRequired,
 }

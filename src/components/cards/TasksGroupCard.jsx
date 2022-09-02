@@ -6,13 +6,18 @@ import ItemCard from "./ItemCard";
 export default function TasksGroupCard({ 
         todo, 
         index, 
-        total, 
+        total,
+        leftID,
+        rightID,
         setTodoID,
         setItemID,
         setItemData,
         setAddModalDisplay, 
         setEditModalDisplay,
-        setDeleteModalDisplay
+        setDeleteModalDisplay,
+        setMessage,
+        updateTimes,
+        setUpdateTimes,
     }){
 
     const [items, setItems] = useState();
@@ -54,12 +59,17 @@ export default function TasksGroupCard({
                                 item={ item } 
                                 index={ index } 
                                 total={ total }
+                                leftID={ leftID }
+                                rightID={ rightID }
                                 todo_id={ todo.id }
                                 setTodoID={ setTodoID }
                                 setItemID={ setItemID }
                                 setItemData={ setItemData }
                                 setEditModalDisplay={ setEditModalDisplay }
                                 setDeleteModalDisplay={ setDeleteModalDisplay }
+                                setMessage={ setMessage } 
+                                updateTimes={ updateTimes }
+                                setUpdateTimes={ setUpdateTimes }
                             />
                         )} 
                     </>)
@@ -89,10 +99,15 @@ TasksGroupCard.propTypes = {
     todo                    : PropTypes.object.isRequired,
     index                   : PropTypes.number.isRequired,
     total                   : PropTypes.number.isRequired,
+    leftID                  : PropTypes.number.isRequired,
+    rightID                 : PropTypes.number.isRequired,
     setTodoID               : PropTypes.func.isRequired,
     setItemID               : PropTypes.func.isRequired,
     setItemData             : PropTypes.func.isRequired,
     setAddModalDisplay      : PropTypes.func.isRequired,
     setEditModalDisplay     : PropTypes.func.isRequired,
     setDeleteModalDisplay   : PropTypes.func.isRequired,
+    setMessage              : PropTypes.func.isRequired,
+    updateTimes             : PropTypes.number.isRequired,
+    setUpdateTimes          : PropTypes.func.isRequired,
 }

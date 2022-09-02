@@ -7,7 +7,9 @@ export default function DeleteTaskModal({
     setDisplay, 
     todo_id,
     item_id,
-    setMessage
+    setMessage,
+    updateTimes,
+    setUpdateTimes
 }) {
     const handleCloseButtonClick = () => {
         setDisplay(false);
@@ -16,6 +18,7 @@ export default function DeleteTaskModal({
         event.preventDefault();
         const response = await deleteListItems(todo_id, item_id);
         setMessage("Task deleted successfully!");
+        setUpdateTimes( updateTimes +1 );
         setDisplay(false);
     }
     if(display) {
@@ -60,9 +63,11 @@ export default function DeleteTaskModal({
     }
 }
 DeleteTaskModal.propTypes = {
-    display     : PropTypes.bool.isRequired,
-    setDisplay  : PropTypes.func.isRequired,
-    todo_id     : PropTypes.number,
-    item_id     : PropTypes.number,
-    setMessage  : PropTypes.func.isRequired,
+    display         : PropTypes.bool.isRequired,
+    setDisplay      : PropTypes.func.isRequired,
+    todo_id         : PropTypes.number,
+    item_id         : PropTypes.number,
+    setMessage      : PropTypes.func.isRequired,
+    updateTimes     : PropTypes.number.isRequired,
+    setUpdateTimes  : PropTypes.func.isRequired,
 }

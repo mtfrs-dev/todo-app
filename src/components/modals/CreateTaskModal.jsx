@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import addListItem from '../../api/items/Post';
 
-export default function CreateTaskModal({ display, setDisplay, todo_id, setMessage}) {
+export default function CreateTaskModal({ 
+    display,
+    setDisplay,
+    todo_id, 
+    setMessage,
+    updateTimes,
+    setUpdateTimes
+}) {
     const [name, setName] = useState("");
     const [progress_percentage, setProgress] = useState("");
     
@@ -24,6 +31,7 @@ export default function CreateTaskModal({ display, setDisplay, todo_id, setMessa
             progress_percentage
         }, todo_id);
         setMessage("Task created successfully!");
+        setUpdateTimes( updateTimes +1 );
         setName("");
         setProgress("");
         setDisplay(false);
@@ -85,8 +93,10 @@ export default function CreateTaskModal({ display, setDisplay, todo_id, setMessa
     }
 }
 CreateTaskModal.propTypes = {
-    display: PropTypes.bool.isRequired,
-    setDisplay: PropTypes.func.isRequired,
-    todo_id: PropTypes.number,
-    setMessage: PropTypes.func.isRequired,
+    display         : PropTypes.bool.isRequired,
+    setDisplay      : PropTypes.func.isRequired,
+    todo_id         : PropTypes.number,
+    setMessage      : PropTypes.func.isRequired,
+    updateTimes     : PropTypes.number.isRequired,
+    setUpdateTimes  : PropTypes.func.isRequired,
 }

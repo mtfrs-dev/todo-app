@@ -9,7 +9,9 @@ export default function EditTaskModal({
     todo_id,
     item_id,
     itemData,
-    setMessage
+    setMessage,
+    updateTimes,
+    setUpdateTimes
 }) {
 
     const [name, setName]                       = useState("");
@@ -36,6 +38,7 @@ export default function EditTaskModal({
             progress_percentage
         }, todo_id, item_id);
         setMessage("Task updated successfully!");
+        setUpdateTimes( updateTimes +1 );
         setName("");
         setProgress("");
         setDisplay(false);
@@ -107,10 +110,12 @@ export default function EditTaskModal({
     }
 }
 EditTaskModal.propTypes = {
-    display     : PropTypes.bool.isRequired,
-    setDisplay  : PropTypes.func.isRequired,
-    todo_id     : PropTypes.number,
-    item_id     : PropTypes.number,
-    itemData    : PropTypes.object,
-    setMessage  : PropTypes.func.isRequired,
+    display         : PropTypes.bool.isRequired,
+    setDisplay      : PropTypes.func.isRequired,
+    todo_id         : PropTypes.number,
+    item_id         : PropTypes.number,
+    itemData        : PropTypes.object,
+    setMessage      : PropTypes.func.isRequired,
+    updateTimes     : PropTypes.number.isRequired,
+    setUpdateTimes  : PropTypes.func.isRequired,
 }
