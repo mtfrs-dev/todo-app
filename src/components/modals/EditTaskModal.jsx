@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function EditTaskModal({ 
     display, 
-    setDisplay, 
+    setDisplay,
     todo_id,
     item_id,
     itemData,
@@ -107,10 +107,10 @@ export default function EditTaskModal({
     }
 }
 EditTaskModal.propTypes = {
-    display: PropTypes.bool.isRequired,
-    setDisplay: PropTypes.func.isRequired,
-    todo_id: PropTypes.number,
-    item_id: PropTypes.number,
-    itemData: PropTypes.object,
-    setMessage: PropTypes.func.isRequired,
+    display     : PropTypes.bool.isRequired,
+    setDisplay  : PropTypes.func.isRequired,
+    todo_id     : PropTypes.number,
+    item_id     : PropTypes.number,
+    itemData    : PropTypes.object,
+    setMessage  : PropTypes.func.isRequired,
 }

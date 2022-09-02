@@ -11,7 +11,8 @@ export default function TasksGroupCard({
         setItemID,
         setItemData,
         setAddModalDisplay, 
-        setEditModalDisplay
+        setEditModalDisplay,
+        setDeleteModalDisplay
     }){
 
     const [items, setItems] = useState();
@@ -58,6 +59,7 @@ export default function TasksGroupCard({
                                 setItemID={ setItemID }
                                 setItemData={ setItemData }
                                 setEditModalDisplay={ setEditModalDisplay }
+                                setDeleteModalDisplay={ setDeleteModalDisplay }
                             />
                         )} 
                     </>)
@@ -84,12 +86,13 @@ export default function TasksGroupCard({
     ); 
 }
 TasksGroupCard.propTypes = {
-    todo                : PropTypes.object.isRequired,
-    index               : PropTypes.number.isRequired,
-    total               : PropTypes.number.isRequired,
-    setTodoID           : PropTypes.func.isRequired,
-    setItemID           : PropTypes.func.isRequired,
-    setItemData         : PropTypes.func.isRequired,
-    setAddModalDisplay  : PropTypes.func.isRequired,
-    setEditModalDisplay : PropTypes.func.isRequired,
+    todo                    : PropTypes.object.isRequired,
+    index                   : PropTypes.number.isRequired,
+    total                   : PropTypes.number.isRequired,
+    setTodoID               : PropTypes.func.isRequired,
+    setItemID               : PropTypes.func.isRequired,
+    setItemData             : PropTypes.func.isRequired,
+    setAddModalDisplay      : PropTypes.func.isRequired,
+    setEditModalDisplay     : PropTypes.func.isRequired,
+    setDeleteModalDisplay   : PropTypes.func.isRequired,
 }

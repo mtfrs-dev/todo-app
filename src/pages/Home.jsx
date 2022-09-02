@@ -6,14 +6,16 @@ import getTodosList from '../api/todos/Get';
 import TasksGroupCard from '../components/cards/TasksGroupCard';
 import CreateTaskModal from '../components/modals/CreateTaskModal';
 import EditTaskModal from '../components/modals/EditTaskModal';
+import DeleteTaskModal from '../components/modals/DeleteTaskModal';
 
 export default function Home(){
     const { message, setMessage } = useMessage();
 
     const [todoList, setTodoList] = useState();
 
-    const [addTaskModalDisplay, setAddTaskModalDisplay]     = useState(false);
-    const [editTaskModalDisplay, setEditTaskModalDisplay]   = useState(false);
+    const [addTaskModalDisplay, setAddTaskModalDisplay]         = useState(false);
+    const [editTaskModalDisplay, setEditTaskModalDisplay]       = useState(false);
+    const [deleteTaskModalDisplay, setDeleteTaskModalDisplay]   = useState(false);
     
     const [todoID, setTodoID] = useState();
     const [itemID, setItemID] = useState();
@@ -58,6 +60,7 @@ export default function Home(){
                             setItemData={ setItemData }
                             setAddModalDisplay={ setAddTaskModalDisplay }
                             setEditModalDisplay={ setEditTaskModalDisplay }
+                            setDeleteModalDisplay={ setDeleteTaskModalDisplay }
                         />
                     )}
                 </div>)
@@ -82,6 +85,13 @@ export default function Home(){
                 todo_id={ todoID }
                 item_id={ itemID }
                 itemData={ itemData }
+                setMessage={ setMessage } 
+            />
+            <DeleteTaskModal 
+                display={ deleteTaskModalDisplay } 
+                setDisplay={ setDeleteTaskModalDisplay } 
+                todo_id={ todoID }
+                item_id={ itemID }
                 setMessage={ setMessage } 
             />
         </>
